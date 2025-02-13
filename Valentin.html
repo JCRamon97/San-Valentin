@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¿Quieres ser mi San Valentín? - Kuromi</title>
+  <style>
+    /* Paleta de colores inspirada en Kuromi */
+    :root {
+      --fondo-oscuro: #2C2A3A;
+      --rosa-kuromi: #F06292;
+      --morado-kuromi: #B39DDB;
+      --blanco: #FFFFFF;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: var(--fondo-oscuro);
+      color: var(--blanco);
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+    }
+    .container {
+      position: relative;
+      text-align: center;
+      padding: 4rem 1rem;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: var(--rosa-kuromi);
+      text-shadow: 2px 2px 4px #000;
+    }
+    .images-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .images-container img {
+      width: 120px;
+      height: auto;
+      border: 2px solid var(--rosa-kuromi);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(240, 98, 146, 0.5);
+      background: var(--blanco);
+    }
+    .buttons {
+      margin-top: 2rem;
+    }
+    button {
+      background: var(--rosa-kuromi);
+      color: var(--blanco);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      margin: 0 1rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: #ff82a8;
+    }
+    /* El botón "No" se posiciona de forma fija para moverse por toda la pantalla */
+    #noBtn {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* Contenedor oculto para el mensaje al hacer clic en "Sí" */
+    #mensajeSi {
+      display: none;
+      margin-top: 3rem;
+      animation: fadeIn 1s ease forwards;
+      text-align: center;
+    }
+    #mensajeSi img {
+      width: 200px;
+      margin-top: 1rem;
+      border: 2px solid var(--rosa-kuromi);
+      border-radius: 8px;
+      background: var(--blanco);
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    /* Elementos flotantes (corazones y estrellas) */
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .heart, .star {
+      position: absolute;
+      font-size: 2rem;
+      color: var(--rosa-kuromi);
+      opacity: 0.8;
+      animation: floatUp 5s linear infinite;
+    }
+    .star {
+      color: var(--morado-kuromi);
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Elementos flotantes (corazones y estrellas) -->
+  <div class="floating-elements" id="floatingContainer"></div>
+
+  <div class="container">
+    <h1>¿Quieres ser mi San Valentín?</h1>
+
+    <!-- Contenedor de imágenes de Kuromi -->
+    <div class="images-container">
+      <img src="./kuromi6.png" alt="Kuromi 6" style="width:300px">
+    </div>
+
+    <!-- Botones de respuesta -->
+    <div class="buttons">
+      <button id="yesBtn">Sí</button>
+      <button id="noBtn">No</button>
+    </div>
+
+    <!-- Mensaje que aparece al dar clic en "Sí" -->
+    <div id="mensajeSi">
+      <h2>¡Gracias por aceptar!</h2>
+      <h2>Eres la persona más especial en mi vida Te amo mucho.</h2>
+      <h2>&#x1F49E &#128158</h2>
+      <img src="./kuromi8.png" alt="Kuromi celebrando">
+    </div>
+  </div>
+
+  <script>
+    // Mostrar mensaje al hacer clic en "Sí"
+    const yesBtn = document.getElementById('yesBtn');
+    const mensajeSi = document.getElementById('mensajeSi');
+    yesBtn.addEventListener('click', () => {
+      mensajeSi.style.display = 'block';
+    });
+
+    // Mover el botón "No" a una posición aleatoria en toda la pantalla
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseover', () => {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const buttonWidth = noBtn.offsetWidth;
+      const buttonHeight = noBtn.offsetHeight;
+      const randomX = Math.floor(Math.random() * (viewportWidth - buttonWidth));
+      const randomY = Math.floor(Math.random() * (viewportHeight - buttonHeight));
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+    });
+
+    // Crear elementos flotantes (corazones y estrellas)
+    const floatingContainer = document.getElementById('floatingContainer');
+    const symbols = ['♥', '♥', '♥', '★', '♥', '★', '♥', '★', '♥', '★'];
+    function createFloatingElements() {
+      for (let i = 0; i < 20; i++) {
+        const elem = document.createElement('div');
+        const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+        elem.classList.add(randomSymbol === '♥' ? 'heart' : 'star');
+        elem.textContent = randomSymbol;
+        elem.style.left = Math.random() * 100 + 'vw';
+        elem.style.animationDelay = Math.random() * 5 + 's';
+        elem.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+        floatingContainer.appendChild(elem);
+      }
+    }
+    createFloatingElements();
+  </script>
+</body>
+</html>
